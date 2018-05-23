@@ -69,7 +69,10 @@ func (p *Printer) Print(w io.Writer, node Node) error {
 		p.stmts(x.StmtList)
 		p.newline(x.End())
 	case *Stmt:
+		p.line = x.Pos().Line()
 		p.stmt(x)
+		p.flushHeredocs()
+		p.flushComments()
 	case *Word:
 		p.word(x)
 	case Command:
